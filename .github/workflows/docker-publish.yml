@@ -21,8 +21,14 @@ jobs:
       - name: Extract Version from Tag
         id: extract-version
         run: |
-          # 从标签名中提取版本号（例如 release-v1.2.3 → 1.2.3）
-          VERSION=${GITHUB_REF_NAME#release-v}
+          # 根据触发方式获取 Tag 名称
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG_NAME=${{ inputs.tag_name }}
+          else
+            TAG_NAME=$GITHUB_REF_NAME
+          fi
+          # 提取版本号（如 release-v1.2.3 → 1.2.3）
+          VERSION=${TAG_NAME#release-v}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Extract Repository Name
