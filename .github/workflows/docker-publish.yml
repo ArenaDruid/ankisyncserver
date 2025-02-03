@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - 'release-v*.*.*'  # 仅监听符合 release-v 前缀的标签推送
+  workflow_dispatch:      # 手动触发：通过 UI 或 API 指定 Tag 名称
+    inputs:
+      tag_name:
+        description: '要构建的 Tag 名称（格式：release-vX.Y.Z）'
+        required: true
+        type: string
 
 jobs:
   build-and-push:
