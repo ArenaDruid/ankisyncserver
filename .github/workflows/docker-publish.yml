@@ -2,9 +2,8 @@ name: Docker Build and Publish
 
 on:
   push:
-    branches: [ "main" ]
-    # Publish semver tags as releases.
-    tags: [ 'release-v*.*.*' ]
+    tags:
+      - 'release-v*.*.*'  # 仅监听符合 release-v 前缀的标签推送
 
 jobs:
   build-and-push:
@@ -16,15 +15,15 @@ jobs:
       - name: Extract Version from Tag
         id: extract-version
         run: |
-          # 从标签中提取版本号（例如 release-v1.2.3 → 1.2.3）
+          # 从标签名中提取版本号（例如 release-v1.2.3 → 1.2.3）
           VERSION=${GITHUB_REF_NAME#release-v}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Extract Repository Name
         id: extract-repo
         run: |
-          # 从 "owner/repo-name" 中提取仓库名（例如 "octocat/hello-world" → "hello-world"）
-          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+          # 提取仓库名称并转换为小写（符合 Docker 命名规则）
+          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2 | tr '[:upper:]' '[:lower:]')
           echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
 
       - name: Login to Docker Hub
@@ -36,7 +35,7 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: .  # Dockerfile 所在目录
+          context: .
           file: ./Dockerfile
           push: true
           tags: |
