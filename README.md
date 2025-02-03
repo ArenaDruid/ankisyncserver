@@ -1,5 +1,5 @@
 # ankisyncserver
-**English**|[中文](./README.zh-CN.md)
+**English** | [中文](./README.zh-CN.md)
 ## Introduction
 It's the syncserver under the Anki 2.1.57+  which includes a built-in sync server. 
 
