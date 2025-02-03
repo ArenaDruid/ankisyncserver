@@ -41,5 +41,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.extract-repo.outputs.repo_name }}:${{ steps.extract-version.outputs.version }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.extract-repo.outputs.repo_name }}:latest  
-            # 可选：推送 latest 标签
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.extract-repo.outputs.repo_name }}:latest
