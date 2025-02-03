@@ -2,8 +2,9 @@ name: Docker Build and Publish
 
 on:
   push:
-    tags:
-      - 'release-v*.*.*'  # 匹配 release-v 开头的语义化版本标签
+    branches: [ "main" ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
 
 jobs:
   build-and-push:
